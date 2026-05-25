@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grain — Social Listening Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;0,9..144,500;0,9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1A2560;
+      --blue: #0A5FFF;
+      --sky: #4A90F5;
+      --cloud: #E8F0FE;
+      --gunmetal: #3D4468;
+      --slate: #9BA4C0;
+      --white: #FFFFFF;
+      --abyss: #0D1230;
+      --brass: #F5C842;
+      --line: #E4E8F2;
+      --success: #1F9E73;
+      --warning: #F5C842;
+      --danger: #D64545;
+      --s1: 4px;
+      --s2: 8px;
+      --s3: 12px;
+      --s4: 16px;
+      --s5: 24px;
+      --s6: 32px;
+      --s7: 48px;
+      --r-sm: 6px;
+      --r-md: 8px;
+      --r-lg: 12px;
+      --serif: "Fraunces", Georgia, serif;
+      --sans: "Inter", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--gunmetal);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--navy) 0%, #0f1a47 100%);
+      color: var(--white);
+      padding: var(--s7) var(--s6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: var(--s5);
+    }
+
+    .logo-mark {
+      width: 20px;
+      height: 20px;
+      background: var(--blue);
+      border-radius: 4px 4px 4px 2px;
+      transform: rotate(-8deg);
+    }
+
+    .header h1 {
+      font-family: var(--serif);
+      font-size: 44px;
+      font-weight: 600;
+      margin-bottom: var(--s3);
+      letter-spacing: -0.02em;
+    }
+
+    .header p {
+      font-size: 18px;
+      opacity: 0.95;
+      max-width: 65ch;
+      margin-bottom: var(--s5);
+    }
+
+    .meta {
+      display: flex;
+      gap: var(--s6);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .meta-item b {
+      display: block;
+      font-family: var(--sans);
+      font-size: 14px;
+      text-transform: none;
+      letter-spacing: 0;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--s6);
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: var(--s4);
+      margin-bottom: var(--s7);
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 14px;
+      padding: var(--s3) var(--s4);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      background: var(--white);
+      color: var(--gunmetal);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .filter-btn.active {
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--blue);
+    }
+
+    /* Week Section */
+    .week {
+      margin-bottom: var(--s8);
+    }
+
+    .week-header {
+      background: var(--cloud);
+      border-left: 4px solid var(--blue);
+      padding: var(--s4) var(--s5);
+      margin-bottom: var(--s5);
+      border-radius: var(--r-lg);
+    }
+
+    .week-header h2 {
+      font-family: var(--serif);
+      font-size: 28px;
+      color: var(--navy);
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .week-header p {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Category */
+    .category {
+      margin-bottom: var(--s6);
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: var(--s3);
+      margin-bottom: var(--s4);
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: var(--s2) var(--s3);
+      background: var(--cloud);
+      border-radius: var(--r-pill);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .category-badge.competitor {
+      background: #E3F4EE;
+      color: var(--success);
+    }
+
+    .category-badge.mention {
+      background: #FDF4D9;
+      color: #7A5A06;
+    }
+
+    .category-badge.trend {
+      background: #E8F0FE;
+      color: var(--blue);
+    }
+
+    .category-badge.voice {
+      background: #FBEAEA;
+      color: var(--danger);
+    }
+
+    .category h3 {
+      font-family: var(--sans);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+
+    /* Entry */
+    .entry {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s5);
+      margin-bottom: var(--s4);
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+
+    .entry:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 12px rgba(10, 95, 255, 0.08);
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--s4);
+      margin-bottom: var(--s3);
+    }
+
+    .entry-title {
+      font-weight: 600;
+      color: var(--navy);
+      font-size: 16px;
+      flex: 1;
+    }
+
+    .entry-date {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--slate);
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+
+    .entry-meta {
+      display: flex;
+      gap: var(--s4);
+      margin-bottom: var(--s4);
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--slate);
+    }
+
+    .meta-item b {
+      color: var(--gunmetal);
+      font-weight: 500;
+    }
+
+    .entry-content {
+      margin-bottom: var(--s4);
+    }
+
+    .entry-content p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--gunmetal);
+      margin-bottom: var(--s3);
+    }
+
+    .entry-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .insight-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: var(--s2);
+      display: block;
+    }
+
+    .insight {
+      background: var(--cloud);
+      border-left: 3px solid var(--blue);
+      padding: var(--s4);
+      border-radius: var(--r-md);
+      font-size: 15px;
+      color: var(--gunmetal);
+      line-height: 1.6;
+    }
+
+    /* Empty State */
+    .empty {
+      text-align: center;
+      padding: var(--s7);
+      color: var(--slate);
+    }
+
+    .empty p {
+      font-size: 16px;
+      margin-bottom: var(--s4);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: var(--s6);
+      margin-top: var(--s8);
+      background: var(--cloud);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--slate);
+      letter-spacing: 0.06em;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: var(--s5) var(--s4);
+      }
+
+      .header h1 {
+        font-size: 32px;
+      }
+
+      .container {
+        padding: var(--s4);
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .filter-btn {
+        width: 100%;
+      }
+
+      .meta {
+        flex-direction: column;
+        gap: var(--s3);
+      }
+
+      .entry-header {
+        flex-direction: column;
+      }
+
+      .entry-meta {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-mark"></span>
+        grain
+      </div>
+      <h1>Market Intelligence Dashboard</h1>
+      <p>Weekly social listening, competitive moves, customer voice, and fintech trends — aggregated for GTM strategy input.</p>
+      <div class="meta">
+        <div>Last Updated<b id="last-updated">May 25, 2026</b></div>
+        <div>Scope<b>4 data sources</b></div>
+        <div>Cadence<b>Weekly synthesis</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="controls">
+      <button class="filter-btn active" onclick="filterCategory('all')">All Categories</button>
+      <button class="filter-btn" onclick="filterCategory('competitor')">🏢 Competitor Moves</button>
+      <button class="filter-btn" onclick="filterCategory('mention')">📢 Grain Mentions</button>
+      <button class="filter-btn" onclick="filterCategory('trend')">📊 Category Trends</button>
+      <button class="filter-btn" onclick="filterCategory('voice')">🗣️ Customer Voice</button>
+    </div>
+
+    <div id="dashboard">
+      <!-- Dashboard will be populated here -->
+    </div>
+  </div>
+
+  <div class="footer">
+    Dashboard data updates weekly · For strategic GTM input only
+  </div>
+
+  <script>
+    const data = {
+      weeks: [
+        {
+          week: "WEEK 1",
+          dates: "May 11–17, 2026",
+          entries: [
+            {
+              category: "competitor",
+              title: "Stripe",
+              subtitle: "Enhanced multi-currency settlement",
+              date: "May 14",
+              source: "Product announcement",
+              finding: "Announced enhanced multi-currency settlement in 30+ markets; new API for \"transparent FX pricing\"",
+              insight: "Direct threat to PSP wedge. Stripe moving into FX transparency layer. Response: Emphasize Grain's **outcome risk** (Stripe optimizes mechanics, Grain assumes 100% risk)."
+            },
+            {
+              category: "competitor",
+              title: "Adyen",
+              subtitle: "New partnership with Asian payment networks",
+              date: "May 13",
+              source: "Partnership announcement",
+              finding: "New partnership with Asian payment networks; expanded local currency payout options",
+              insight: "Adyen doubling down on payout infrastructure. Our moat: FX **hedging outcome**, not just settlement mechanics. Position as complementary."
+            },
+            {
+              category: "competitor",
+              title: "Kantox",
+              subtitle: "Real-time rate locking for ecommerce",
+              date: "May 12",
+              source: "Product launch",
+              finding: "New product: \"Real-time rate locking for ecommerce\"",
+              insight: "Legacy FX player moving upmarket to ecommerce. Messaging opportunity: \"Unlike treasury-first solutions, Grain is **built for platforms**, not CFOs.\""
+            },
+            {
+              category: "mention",
+              title: "TechCrunch",
+              subtitle: "$50M raise coverage",
+              date: "May 15",
+              source: "Press / News aggregator",
+              finding: "$50M raise coverage (existing, but being shared widely on startup news aggregators)",
+              insight: "Brand credibility moving through ecosystem. Good lead-gen signal. Awareness building in ICP persona."
+            },
+            {
+              category: "mention",
+              title: "treasuryXL",
+              subtitle: "Community discussion",
+              date: "May 16",
+              source: "Industry community",
+              finding: "Link to Grain's hedging guide from Grain blog; community discussion about embedded hedging",
+              insight: "Industry community starting to reference Grain as thought leader. Validates positioning."
+            },
+            {
+              category: "trend",
+              title: "FX Volatility Spike",
+              subtitle: "EUR/USD at 3-month high",
+              date: "May 13",
+              source: "Market data / ECB policy",
+              finding: "EUR/USD at 3-month high due to ECB policy shift; emerging market currencies under pressure",
+              insight: "**Macro tailwind:** CFOs and treasury teams actively searching for hedging solutions. Increase sales + content velocity on volatility messaging."
+            },
+            {
+              category: "trend",
+              title: "BNPL Global Growth",
+              subtitle: "Transaction volume hitting $250B+",
+              date: "May 14",
+              source: "Industry reports",
+              finding: "Transaction volume hitting $250B+ annualized (tracking toward $300B by end of 2026)",
+              insight: "**Market expansion signal:** BNPL operators increasingly international; FX exposure growing. BNPL should be elevated from \"emerging wedge\" to \"priority vertical.\""
+            },
+            {
+              category: "voice",
+              title: "Reddit: r/ecommerce",
+              subtitle: "\"FX pricing is killing our margins\"",
+              date: "May 15",
+              source: "Reddit discussion (3 upvotes)",
+              finding: "Customer frustration with static FX rates on cross-border. Quote: \"We're losing 8-10% margin per LATAM transaction to stale rates.\"",
+              insight: "Pain signal from ICP. Validates PSP wedge pain and margin erosion narrative."
+            },
+            {
+              category: "voice",
+              title: "Twitter",
+              subtitle: "\"Just lost 15% margin on GBP/MXN volatility\"",
+              date: "May 16",
+              source: "Twitter / VP Finance",
+              finding: "VP Finance at Travel startup: \"Just lost 15% margin on GBP/MXN volatility in one week. This is why we need better FX infrastructure.\"",
+              insight: "Direct persona pain validation. This is Grain's core buyer. High-intent signal."
+            }
+          ]
+        },
+        {
+          week: "WEEK 2",
+          dates: "May 18–24, 2026",
+          entries: [
+            {
+              category: "competitor",
+              title: "Checkout.com",
+              subtitle: "FX as a Service API",
+              date: "May 19",
+              source: "Product launch",
+              finding: "Launched \"FX as a Service\" API; allows merchants to lock in rates 15 min before payment",
+              insight: "**Direct threat to PSP wedge.** Checkout positioning FX as merchant feature, not infrastructure. Our response: \"Grain assumes the risk; Checkout passes it to merchant.\""
+            },
+            {
+              category: "competitor",
+              title: "Rapyd",
+              subtitle: "Embedded finance repositioning",
+              date: "May 20",
+              source: "Blog post",
+              finding: "New blog: \"How embedded finance drives cross-border growth\". Rapyd repositioning as \"embedded finance platform.\"",
+              insight: "Rapyd moving into embedded finance territory. Grain differentiator = **embedded FX risk** (narrower but deeper). Need clearer positioning separation."
+            },
+            {
+              category: "mention",
+              title: "fintech newsletter",
+              subtitle: "Rising Israeli Fintech Founders",
+              date: "May 21",
+              source: "Industry newsletter",
+              finding: "Grain featured in \"Rising Israeli Fintech Founders\" piece (tied to $50M raise narrative)",
+              insight: "Awareness spreading through industry publications. Third-party validation emerging."
+            },
+            {
+              category: "mention",
+              title: "LinkedIn",
+              subtitle: "VP Commerce reshare",
+              date: "May 22",
+              source: "LinkedIn post",
+              finding: "VP Commerce at major travel platform reshares Grain blog post on booking conversion + FX",
+              insight: "Blog content resonating with ICP personas. Thought leadership signal."
+            },
+            {
+              category: "trend",
+              title: "G7 Currency Intervention",
+              subtitle: "Central banks coordinating on yen weakness",
+              date: "May 19",
+              source: "Central bank policy",
+              finding: "Central banks coordinating intervention on yen weakness; volatility signals creating urgency",
+              insight: "Macro environment favoring FX hedging solutions. Increase urgency messaging."
+            },
+            {
+              category: "trend",
+              title: "Travel Sector Bounce",
+              subtitle: "Post-memorial day bookings at 3-year high",
+              date: "May 20",
+              source: "Travel industry reports",
+              finding: "Post-memorial day travel bookings at 3-year high; international bookings recovering",
+              insight: "Travel vertical demand signal. Hotelbeds partnership + case study opportunity."
+            },
+            {
+              category: "voice",
+              title: "Reddit: r/fintech",
+              subtitle: "\"Building a cross-border fintech startup\"",
+              date: "May 20",
+              source: "Reddit discussion (8 upvotes, 12 comments)",
+              finding: "Founder actively evaluating solutions. Comments mention Kantox, internal build, Grain (new), Ebury",
+              insight: "**High-intent founder actively searching.** Real-time response with use case opportunity. Sales team should engage."
+            },
+            {
+              category: "voice",
+              title: "Twitter: #embedfinance",
+              subtitle: "Startup founder stack discussions",
+              date: "May 21",
+              source: "Twitter conversation",
+              finding: "Startup founders discussing embedded finance stacks. Grain not yet visible in conversations.",
+              insight: "Founders actively searching. Grain not yet visible. Opportunity: Branded content on \"embedded FX\" could capture conversation."
+            }
+          ]
+        }
+      ]
+    };
+
+    let currentFilter = 'all';
+
+    function renderDashboard() {
+      const dashboard = document.getElementById('dashboard');
+      let html = '';
+
+      data.weeks.forEach(week => {
+        html += `<div class="week">
+          <div class="week-header">
+            <h2>${week.week}</h2>
+            <p>${week.dates}</p>
+          </div>`;
+
+        const categories = {
+          competitor: { name: '🏢 Competitor Moves', badge: 'competitor' },
+          mention: { name: '📢 Grain Mentions', badge: 'mention' },
+          trend: { name: '📊 Category Trends', badge: 'trend' },
+          voice: { name: '🗣️ Customer Voice', badge: 'voice' }
+        };
+
+        Object.entries(categories).forEach(([catKey, catInfo]) => {
+          const entries = week.entries.filter(e => e.category === catKey);
+          if (entries.length === 0) return;
+
+          html += `<div class="category" data-category="${catKey}">
+            <div class="category-header">
+              <span class="category-badge ${catInfo.badge}">${catInfo.name}</span>
+            </div>`;
+
+          entries.forEach(entry => {
+            html += `
+              <div class="entry">
+                <div class="entry-header">
+                  <div>
+                    <div class="entry-title">${entry.title}</div>
+                    <div style="font-size: 14px; color: var(--slate); margin-top: 4px;">${entry.subtitle}</div>
+                  </div>
+                  <div class="entry-date">${entry.date}</div>
+                </div>
+                <div class="entry-meta">
+                  <div class="meta-item">Source: <b>${entry.source}</b></div>
+                </div>
+                <div class="entry-content">
+                  <p>${entry.finding}</p>
+                </div>
+                <span class="insight-label">GTM Insight</span>
+                <div class="insight">${entry.insight}</div>
+              </div>
+            `;
+          });
+
+          html += '</div>';
+        });
+
+        html += '</div>';
+      });
+
+      dashboard.innerHTML = html;
+    }
+
+    function filterCategory(cat) {
+      currentFilter = cat;
+
+      // Update button states
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+
+      // Filter entries
+      if (cat === 'all') {
+        document.querySelectorAll('.category').forEach(el => {
+          el.style.display = 'block';
+        });
+      } else {
+        document.querySelectorAll('.category').forEach(el => {
+          if (el.dataset.category === cat) {
+            el.style.display = 'block';
+          } else {
+            el.style.display = 'none';
+          }
+        });
+      }
+    }
+
+    // Initialize
+    renderDashboard();
+  </script>
+</body>
+</html>
