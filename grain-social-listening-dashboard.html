@@ -75,11 +75,17 @@
     }
 
     .logo-mark {
-      width: 20px;
-      height: 20px;
-      background: var(--blue);
-      border-radius: 4px 4px 4px 2px;
-      transform: rotate(-8deg);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg {
+      width: 100%;
+      height: 100%;
     }
 
     .header h1 {
@@ -395,11 +401,15 @@
   <div class="header">
     <div class="header-inner">
       <div class="logo">
-        <span class="logo-mark"></span>
+        <span class="logo-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="16" height="16" rx="4" fill="white"/>
+          </svg>
+        </span>
         grain
       </div>
       <h1>Market Intelligence Dashboard</h1>
-      <p>Weekly social listening, competitive moves, customer voice, and fintech trends.</p>
+      <p>Weekly social listening, competitive moves, customer voice, and fintech trends — aggregated for GTM strategy input.</p>
     </div>
   </div>
 
@@ -434,7 +444,7 @@
               date: "May 14",
               source: "Product announcement",
               finding: "Announced enhanced multi-currency settlement in 30+ markets; new API for \"transparent FX pricing\"",
-              insight: "Direct threat to PSP wedge. Stripe moving into FX transparency layer. Response: Emphasize Grain's **outcome risk** (Stripe optimizes mechanics, Grain assumes 100% risk)."
+              insight: "Stripe launched merchant-facing FX pricing API. **Insight:** Merchants want visibility into currency costs. Grain's play: protect margin without adding complexity—no new vendor, no merchant UI, just lower risk inside existing checkout."
             },
             {
               category: "competitor",
@@ -443,7 +453,7 @@
               date: "May 13",
               source: "Partnership announcement",
               finding: "New partnership with Asian payment networks; expanded local currency payout options",
-              insight: "Adyen doubling down on payout infrastructure. Our moat: FX **hedging outcome**, not just settlement mechanics. Position as complementary."
+              insight: "Adyen expanding local currency payouts across Asia. **Insight:** Infrastructure players are building settlement mechanics. Grain owns what comes after: keeping margin stable when currency moves. We're complementary, not competitive."
             },
             {
               category: "competitor",
@@ -452,7 +462,7 @@
               date: "May 12",
               source: "Product launch",
               finding: "New product: \"Real-time rate locking for ecommerce\"",
-              insight: "Legacy FX player moving upmarket to ecommerce. Messaging opportunity: \"Unlike treasury-first solutions, Grain is **built for platforms**, not CFOs.\""
+              insight: "Kantox launched rate-locking for ecommerce platforms. **Insight:** Legacy treasury solutions are moving upmarket. Grain's advantage: built for platforms operating at scale, not CFO-focused tools. Different buyer, different workflow."
             },
             {
               category: "mention",
@@ -460,8 +470,8 @@
               subtitle: "$50M raise coverage",
               date: "May 15",
               source: "Press / News aggregator",
-              finding: "$50M raise coverage (existing, but being shared widely on startup news aggregators)",
-              insight: "Brand credibility moving through ecosystem. Good lead-gen signal. Awareness building in ICP persona."
+              finding: "$50M raise featured in TechCrunch; being reshared across startup ecosystem",
+              insight: "**Insight:** Credibility signal reaching our ICP. This awareness builds trust with platform operators evaluating solutions."
             },
             {
               category: "mention",
@@ -469,8 +479,8 @@
               subtitle: "Community discussion",
               date: "May 16",
               source: "Industry community",
-              finding: "Link to Grain's hedging guide from Grain blog; community discussion about embedded hedging",
-              insight: "Industry community starting to reference Grain as thought leader. Validates positioning."
+              finding: "treasuryXL community referencing Grain's hedging guide; discussing embedded hedging",
+              insight: "**Insight:** Industry operators are recognizing Grain as reliable infrastructure, not just another fintech tool. Trust is being built through proof."
             },
             {
               category: "trend",
@@ -479,7 +489,7 @@
               date: "May 13",
               source: "Market data / ECB policy",
               finding: "EUR/USD at 3-month high due to ECB policy shift; emerging market currencies under pressure",
-              insight: "**Macro tailwind:** CFOs and treasury teams actively searching for hedging solutions. Increase sales + content velocity on volatility messaging."
+              insight: "**Insight:** When currency swings, platform operators lose margin. Right now, buyer urgency is high. Sales should lead with margin protection, not FX mechanics."
             },
             {
               category: "trend",
@@ -488,7 +498,7 @@
               date: "May 14",
               source: "Industry reports",
               finding: "Transaction volume hitting $250B+ annualized (tracking toward $300B by end of 2026)",
-              insight: "**Market expansion signal:** BNPL operators increasingly international; FX exposure growing. BNPL should be elevated from \"emerging wedge\" to \"priority vertical.\""
+              insight: "**Insight:** BNPL platforms are operating across borders now. Currency risk is becoming their problem. BNPL should be a priority vertical, not experimental."
             },
             {
               category: "voice",
@@ -496,8 +506,8 @@
               subtitle: "\"FX pricing is killing our margins\"",
               date: "May 15",
               source: "Reddit discussion (3 upvotes)",
-              finding: "Customer frustration with static FX rates on cross-border. Quote: \"We're losing 8-10% margin per LATAM transaction to stale rates.\"",
-              insight: "Pain signal from ICP. Validates PSP wedge pain and margin erosion narrative."
+              finding: "Platform operator: \"We're losing 8-10% margin per LATAM transaction to stale rates.\"",
+              insight: "**Insight:** Platform operators are quietly losing money to currency timing. This is margin leakage, not innovation problem. Sales should search for these signals and engage."
             },
             {
               category: "voice",
@@ -505,8 +515,8 @@
               subtitle: "\"Just lost 15% margin on GBP/MXN volatility\"",
               date: "May 16",
               source: "Twitter / VP Finance",
-              finding: "VP Finance at Travel startup: \"Just lost 15% margin on GBP/MXN volatility in one week. This is why we need better FX infrastructure.\"",
-              insight: "Direct persona pain validation. This is Grain's core buyer. High-intent signal."
+              finding: "VP Finance at travel startup: \"Lost 15% margin on GBP/MXN volatility in one week.\"",
+              insight: "**Insight:** This is Grain's buyer, in their exact language. They're searching for solutions. High-intent signal for outreach."
             }
           ]
         },
@@ -520,8 +530,8 @@
               subtitle: "FX as a Service API",
               date: "May 19",
               source: "Product launch",
-              finding: "Launched \"FX as a Service\" API; allows merchants to lock in rates 15 min before payment",
-              insight: "**Direct threat to PSP wedge.** Checkout positioning FX as merchant feature, not infrastructure. Our response: \"Grain assumes the risk; Checkout passes it to merchant.\""
+              finding: "Launched \"FX as a Service\" API; lets merchants lock rates 15 min before payment",
+              insight: "**Insight:** PSPs are moving FX into merchant experience (passing control + risk to merchant). Grain's differentiation: we assume the risk. We protect margin; they pass it through."
             },
             {
               category: "competitor",
@@ -529,8 +539,8 @@
               subtitle: "Embedded finance repositioning",
               date: "May 20",
               source: "Blog post",
-              finding: "New blog: \"How embedded finance drives cross-border growth\". Rapyd repositioning as \"embedded finance platform.\"",
-              insight: "Rapyd moving into embedded finance territory. Grain differentiator = **embedded FX risk** (narrower but deeper). Need clearer positioning separation."
+              finding: "Rapyd repositioned as \"embedded finance platform\" with expanded FX capabilities",
+              insight: "**Insight:** Embedded finance is becoming table-stakes. Grain's angle: we own the outcome (FX risk). Others own the plumbing. We're narrower, deeper, more valuable for platform margin."
             },
             {
               category: "mention",
@@ -538,8 +548,8 @@
               subtitle: "Rising Israeli Fintech Founders",
               date: "May 21",
               source: "Industry newsletter",
-              finding: "Grain featured in \"Rising Israeli Fintech Founders\" piece (tied to $50M raise narrative)",
-              insight: "Awareness spreading through industry publications. Third-party validation emerging."
+              finding: "Grain featured in \"Rising Israeli Fintech Founders\" piece",
+              insight: "**Insight:** Third-party validation reaching industry buyers. Trust is building through external credibility, not just our claims."
             },
             {
               category: "mention",
@@ -547,8 +557,8 @@
               subtitle: "VP Commerce reshare",
               date: "May 22",
               source: "LinkedIn post",
-              finding: "VP Commerce at major travel platform reshares Grain blog post on booking conversion + FX",
-              insight: "Blog content resonating with ICP personas. Thought leadership signal."
+              finding: "VP Commerce at major travel platform reshared Grain's blog on booking conversion + FX",
+              insight: "**Insight:** Our content is resonating with operating leaders. They're amplifying it to their networks. Thought leadership working."
             },
             {
               category: "trend",
@@ -557,7 +567,7 @@
               date: "May 19",
               source: "Central bank policy",
               finding: "Central banks coordinating intervention on yen weakness; volatility signals creating urgency",
-              insight: "Macro environment favoring FX hedging solutions. Increase urgency messaging."
+              insight: "**Insight:** Macro volatility is creating urgency. Platform operators feel it in their margin reports. Now is the time to push solutions that protect against this."
             },
             {
               category: "trend",
@@ -565,8 +575,8 @@
               subtitle: "Post-memorial day bookings at 3-year high",
               date: "May 20",
               source: "Travel industry reports",
-              finding: "Post-memorial day travel bookings at 3-year high; international bookings recovering",
-              insight: "Travel vertical demand signal. Hotelbeds partnership + case study opportunity."
+              finding: "Post-memorial day travel bookings hit 3-year high; international volume recovering",
+              insight: "**Insight:** Travel platforms are taking on currency risk again as they scale globally. Case study moment for our existing travel customers."
             },
             {
               category: "voice",
@@ -574,8 +584,8 @@
               subtitle: "\"Building a cross-border fintech startup\"",
               date: "May 20",
               source: "Reddit discussion (8 upvotes, 12 comments)",
-              finding: "Founder actively evaluating solutions. Comments mention Kantox, internal build, Grain (new), Ebury",
-              insight: "**High-intent founder actively searching.** Real-time response with use case opportunity. Sales team should engage."
+              finding: "Founder evaluating embedded FX solutions; mentions Kantox, Ebury, Grain",
+              insight: "**Insight:** This is real-time intent signal. Founder is comparing us to legacy players. Sales should engage with a use case, not a pitch."
             },
             {
               category: "voice",
@@ -583,8 +593,8 @@
               subtitle: "Startup founder stack discussions",
               date: "May 21",
               source: "Twitter conversation",
-              finding: "Startup founders discussing embedded finance stacks. Grain not yet visible in conversations.",
-              insight: "Founders actively searching. Grain not yet visible. Opportunity: Branded content on \"embedded FX\" could capture conversation."
+              finding: "Founders actively discussing embedded finance stacks on #embedfinance; Grain not yet visible",
+              insight: "**Insight:** Our ICP is searching, but we're not in the conversation. Content opportunity: Own \"embedded FX\" as distinct from embedded finance."
             }
           ]
         }
@@ -661,23 +671,20 @@
       event.target.classList.add('active');
 
       // Filter entries
-      if (cat === 'all') {
-        document.querySelectorAll('.category').forEach(el => {
+      document.querySelectorAll('.category').forEach(el => {
+        if (el.dataset.category === cat) {
           el.style.display = 'block';
-        });
-      } else {
-        document.querySelectorAll('.category').forEach(el => {
-          if (el.dataset.category === cat) {
-            el.style.display = 'block';
-          } else {
-            el.style.display = 'none';
-          }
-        });
-      }
+        } else {
+          el.style.display = 'none';
+        }
+      });
     }
 
     // Initialize
     renderDashboard();
+    // Set first category as active
+    document.querySelector('.filter-btn').classList.add('active');
+    filterCategory('competitor');
   </script>
 </body>
 </html>
